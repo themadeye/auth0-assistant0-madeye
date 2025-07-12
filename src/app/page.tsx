@@ -4,6 +4,24 @@ import { useUser } from '@auth0/nextjs-auth0';
 
 import { ChatWindow } from '@/components/ChatWindow';
 import { InfoCard } from '@/components/InfoCard';
+import { Fragment } from 'react';
+import { MainPageHeader } from '@/components/ui/MainPageHeader';
+import { PageHeader } from '@/components/ui/PageHeader';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: (theme.vars ?? theme).palette.text.secondary,
+    ...theme.applyStyles('dark', {
+        backgroundColor: '#1A2027',
+    }),
+}));
 
 export default function Home() {
     const { user, isLoading } = useUser();
@@ -12,23 +30,27 @@ export default function Home() {
 
     if (!user) {
         return (
-            <main className="flex flex-col items-center justify-center h-screen p-10">
-                <a href="/auth/login?screen_hint=signup">
-                    <button>Sign up</button>
-                </a>
-                <a href="/auth/login">
-                    <button>Log in</button>
-                </a>
-            </main>
+            <Stack spacing={2}>
+                <Box><PageHeader user={user}/></Box>
+                <Box sx={{ p: 2, border: '1px dashed grey' }}>
+                    This is landing page, simple content placed here
+                </Box>
+            </Stack>
+
         );
     }
 
     return (
-        <ChatWindow
-            endpoint="api/chat"
-            emoji="🤖"
-            placeholder="I'm your personal assistant. How can I help you today?"
-            emptyStateComponent={<InfoCard />}
-        />
+        <Stack spacing={2}>
+            <Box><PageHeader user={user}/></Box>
+            {/*Replace with Video transcript extractor*/}
+            <ChatWindow
+                endpoint="api/chat"
+                emoji="🤖"
+                placeholder="I'm your personal assistant. How can I help you today?"
+                emptyStateComponent={<InfoCard />}
+            />
+        </Stack>
+
     );
 }

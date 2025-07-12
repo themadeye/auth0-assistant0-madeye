@@ -30,8 +30,8 @@ export async function POST(req: NextRequest) {
             .map(convertVercelMessageToLangChainMessage);
 
         const llm = new ChatOpenAI({
-            model: 'gpt-4',
-            temperature: 0,
+            model: 'o4-mini',
+            temperature: 1,
         });
 
         const gmailParams: Gmail.GmailBaseToolParams = {

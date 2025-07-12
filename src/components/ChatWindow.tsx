@@ -96,16 +96,18 @@ function StickyToBottomContent(props: {
     className?: string;
     contentClassName?: string;
 }) {
-    const context = useStickToBottomContext();
+    // const context = useStickToBottomContext();
 
     // scrollRef will also switch between overflow: unset to overflow: auto
     return (
         <div
-            ref={context.scrollRef}
+            // ref={context.scrollRef}
             style={{ width: '100%', height: '100%' }}
             className={cn('grid grid-rows-[1fr,auto]', props.className)}
         >
-            <div ref={context.contentRef} className={props.contentClassName}>
+            <div
+                // ref={context.contentRef}
+                className={props.contentClassName}>
                 {props.content}
             </div>
 
@@ -160,35 +162,36 @@ export function ChatWindow(props: {
     }
 
     return (
-        <StickToBottom>
-            <StickyToBottomContent
-                className="absolute inset-0"
-                contentClassName="py-8 px-2"
-                content={
-                    chat.messages.length === 0 ? (
-                        <div>{props.emptyStateComponent}</div>
-                    ) : (
-                        <ChatMessages
-                            aiEmoji={props.emoji}
-                            messages={chat.messages}
-                            emptyStateComponent={props.emptyStateComponent}
-                            sourcesForMessages={sourcesForMessages}
-                        />
-                    )
-                }
-                footer={
-                    <div className="sticky bottom-8 px-2">
-                        <ScrollToBottom className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4" />
-                        <ChatInput
-                            value={chat.input}
-                            onChange={chat.handleInputChange}
-                            onSubmit={sendMessage}
-                            loading={isChatLoading()}
-                            placeholder={props.placeholder ?? 'What can I help you with?'}
-                        ></ChatInput>
-                    </div>
-                }
-            ></StickyToBottomContent>
-        </StickToBottom>
+        // <StickToBottom>
+        <StickyToBottomContent
+            className="absolute inset-0"
+            contentClassName="py-8 px-2"
+            content={
+                chat.messages.length === 0 ? (
+                    <div>{props.emptyStateComponent}</div>
+                ) : (
+                    <ChatMessages
+                        aiEmoji={props.emoji}
+                        messages={chat.messages}
+                        emptyStateComponent={props.emptyStateComponent}
+                        sourcesForMessages={sourcesForMessages}
+                    />
+                )
+            }
+            footer={
+                <div className="sticky bottom-8 px-2">
+                    {/*<ScrollToBottom className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4" />*/}
+                    <ChatInput
+                        value={chat.input}
+                        onChange={chat.handleInputChange}
+                        onSubmit={sendMessage}
+                        loading={isChatLoading()}
+                        placeholder={props.placeholder ?? 'What can I help you with?'}
+                    ></ChatInput>
+                </div>
+            }
+        >
+        </StickyToBottomContent>
+        // </StickToBottom>
     );
 }
